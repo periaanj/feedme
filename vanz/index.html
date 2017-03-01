@@ -1,0 +1,65 @@
+
+<!doctype html>
+<html lang= "en">
+	<head>
+	<meta charset ="UTF-8" />
+	<title>Vanz</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+	<style type="text/css">
+		body{
+			margin: 0;
+		}
+		</style>
+		</head>
+		<body>
+			<div id='display_game'></div>
+			<script type="text/javascript">
+				var game = new Phaser.Game(800,600, Phaser.CANVAS, 'display_game', { preload: preload, create: create, update: update});
+
+				var player, keyboard;
+				function preload (){
+					game.load.image("bg", "assets/bg.png");
+
+					game.load.spritesheet("char", "assets/char.png", 20, 40);
+
+				}
+
+				function create (){
+					game.add.sprite(0,0,"bg");
+
+					player=game.add.sprite(100,500,"char");
+					player.animations.add("walk-right",[8,9,10,11,12,13,14,15],15,true);
+					player.animations.add("walk-left",[0,1,2,3,4,5,6,7],15,true);
+
+					keyboard = game.input.keyboard.createCursorKeys();
+
+
+    				game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    				game.physics.arcade.enable(player);
+    				player.body.bounce.y = 0.2;
+    				player.body.collideWorldBounds = true;
+
+    
+    				//player.body.gravity.y = 1000;
+
+				}
+
+				function update (){
+
+					if(keyboard.left.isDown){
+						player.animations.play('walk-left');
+						player.body.velocity.x = -100;
+					}
+					else if(keyboard.right.isDown){
+						player.animations.play('walk-right');
+						player.body.velocity.x = 100;
+					}
+					else { player.body.velocity.x =0;
+							player.animations.stop();
+				}
+				}
+
+				</script>
+				</body>
+				</html>
